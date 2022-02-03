@@ -3,351 +3,223 @@
   "info": {
     "description": "This is a Weather server",
     "version": "1.0.0",
-    "title": "Weather"
+    "title": "CS561 - Assignment 4: Swagger"
   },
-  "basePath": "/v2",
+  "host": "localhost:3000",
+  "basePath": "/v1",
   "tags": [
     {
       "name": "v1",
-      "description": "Weather App"
+      "description": "Weather API"
     }
   ],
   "schemes": [
-    "https",
     "http"
   ],
   "paths": {
-    "/v1/weather": {
+    "/weather": {
       "get": {
         "tags": [
           "v1"
         ],
         "summary": "MockWeather API",
         "description": "Mocks OpenWeather's endpoint",
-        "operationId": "addPet",
+        "operationId": "getWeather",
         "consumes": [
-          "application/json",
-          "application/xml"
-        ],
-        "produces": [
-          "application/xml",
           "application/json"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          }
+        "produces": [
+          "application/json"
         ],
         "responses": {
+          "200": {
+            "description": "Sucessful mocking of data",
+            "schema": {
+              "type": "object"
+            },
+            "examples": {
+              "application/json": {
+                "coord": {
+                  "lon": -123.262,
+                  "lat": 44.5646
+                },
+                "weather": [
+                  {
+                    "id": 801,
+                    "main": "Clouds",
+                    "description": "few clouds",
+                    "icon": "02d"
+                  }
+                ],
+                "base": "stations",
+                "main": {
+                  "temp": 47.19,
+                  "feels_like": 47.19,
+                  "temp_min": 42.71,
+                  "temp_max": 55.81,
+                  "pressure": 1024,
+                  "humidity": 75,
+                  "sea_level": 1024,
+                  "grnd_level": 1016
+                },
+                "visibility": 10000,
+                "wind": {
+                  "speed": 2.39,
+                  "deg": 17,
+                  "gust": 2.55
+                },
+                "clouds": {
+                  "all": 22
+                },
+                "dt": 1642982860,
+                "sys": {
+                  "type": 2,
+                  "id": 2010260,
+                  "country": "US",
+                  "sunrise": 1642952435,
+                  "sunset": 1642986538
+                },
+                "timezone": -28800,
+                "id": 5720727,
+                "name": "Corvallis",
+                "cod": 200
+              }
+            }
+          },
           "405": {
-            "description": "Invalid input"
+            "description": "Invalid request for data"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/v1/hello": {
+    "/hello": {
       "get": {
         "tags": [
           "v1"
         ],
-        "summary": "Hello",
-        "description": "Returns a greting",
-        "operationId": "findPetsByStatus",
+        "summary": "Returns a greeting",
+        "description": "Should return a greeting of our choice",
+        "operationId": "getGreeting",
         "produces": [
-          "application/xml",
           "application/json"
         ],
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "",
-            "required": true,
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "available",
-                "pending",
-                "sold"
-              ],
-              "default": "available"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+            "examples": {
+              "application/json": {
+                "message": "Hello Swagger!"
               }
             }
           },
           "400": {
             "description": "Invalid status value"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
     },
-    "/v1/auth": {
+    "/auth": {
       "post": {
         "tags": [
           "v1"
         ],
-        "summary": "Authorization",
+        "summary": "Authentication",
         "description": "Accepts a username and password and return a mock token",
-        "operationId": "findPetsByTags",
+        "operationId": "authorizeUsers",
         "produces": [
-          "application/xml",
+          "application/json"
+        ],
+        "consumes": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "tags",
-            "in": "query",
+            "name": "body",
+            "in": "body",
             "description": "Tags to filter by",
             "required": true,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "successful operation",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+            "examples": {
+              "application/json": {
+                "token": {
+                  "message": "some_token_for_api"
+                }
               }
             }
           },
           "400": {
             "description": "Invalid tag value"
           }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        }
       }
-    }
-  },
-  "securityDefinitions": {
-    "petstore_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:pets": "modify pets in your account",
-        "read:pets": "read your pets"
-      }
-    },
-    "api_key": {
-      "type": "apiKey",
-      "name": "api_key",
-      "in": "header"
     }
   },
   "definitions": {
-    "Order": {
+    "Main": {
       "type": "object",
       "properties": {
-        "id": {
+        "temp": {
           "type": "integer",
           "format": "int64"
         },
-        "petId": {
+        "mintemp": {
           "type": "integer",
           "format": "int64"
         },
-        "quantity": {
+        "maxtemp": {
           "type": "integer",
-          "format": "int32"
-        },
-        "shipDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "description": "Order Status",
-          "enum": [
-            "placed",
-            "approved",
-            "delivered"
-          ]
-        },
-        "complete": {
-          "type": "boolean",
-          "default": false
+          "format": "int64"
         }
       },
       "xml": {
-        "name": "Order"
+        "name": "Main"
       }
     },
-    "Category": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Category"
-      }
-    },
-    "User": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "username": {
-          "type": "string"
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "userStatus": {
-          "type": "integer",
-          "format": "int32",
-          "description": "User Status"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Tag"
-      }
-    },
-    "Pet": {
+    "V1": {
       "type": "object",
       "required": [
-        "name",
-        "photoUrls"
+        "body"
       ],
       "properties": {
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "category": {
-          "$ref": "#/definitions/Category"
+        "main": {
+          "$ref": "#/definitions/Main"
         },
         "name": {
           "type": "string",
-          "example": "doggie"
-        },
-        "photoUrls": {
-          "type": "array",
-          "xml": {
-            "name": "photoUrl",
-            "wrapped": true
-          },
-          "items": {
-            "type": "string"
-          }
-        },
-        "tags": {
-          "type": "array",
-          "xml": {
-            "name": "tag",
-            "wrapped": true
-          },
-          "items": {
-            "$ref": "#/definitions/Tag"
-          }
-        },
-        "status": {
-          "type": "string",
-          "description": "pet status in the store",
-          "enum": [
-            "available",
-            "pending",
-            "sold"
-          ]
+          "example": "Corvallis"
         }
       },
       "xml": {
-        "name": "Pet"
+        "name": "V1"
       }
     },
-    "ApiResponse": {
+    "Users": {
       "type": "object",
+      "required": [
+        "body"
+      ],
       "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "type": {
+        "username": {
           "type": "string"
         },
-        "message": {
+        "password": {
           "type": "string"
         }
+      },
+      "xml": {
+        "name": "Users"
       }
     }
   },
