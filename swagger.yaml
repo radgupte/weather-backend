@@ -51,8 +51,7 @@ paths:
       parameters:
         - name: q
           in: query
-          description:
-            City, state and country codes divided by comma - The API
+          description: City, state and country codes divided by comma - The API
             response will be returned in the language as that of the
             requested location name. If the location is in our predefined list of
             more than 200,000 locations, then it will work.
@@ -67,16 +66,14 @@ paths:
             type: string
         - name: mode
           in: query
-          description:
-            Response format. Possible values are xml and html. If you don't use
+          description: Response format. Possible values are xml and html. If you don't use
             the mode parameter format is JSON by default.
           required: false
           schema:
             type: string
         - name: units
           in: query
-          description:
-            Units of measurement - standard, metric and imperial units are
+          description: Units of measurement - standard, metric and imperial units are
             available. If no units parameter applied, standard is default.
           required: false
           schema:

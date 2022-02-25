@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({
 
 app.listen('3000');
 console.log('Node-Express server is running on port 3000');
-
+app.use('/api-docs', require('./swagger'));
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io'];
+    const allowedOrigins = ['https://editor.swagger.io', 'https://hoppscotch.io','54.189.99.230'];
     const origin = req.headers.origin;
     
     if (allowedOrigins.includes(origin)) {
